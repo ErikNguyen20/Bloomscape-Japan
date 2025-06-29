@@ -8,8 +8,8 @@ _A Cherry Blossom AI Forecasting Web Application_
 **Bloomscape Japan** is a 🌸 cherry blossom forecasting web app that predicts upcoming bloom dates **and displays historic cherry blossom bloom records** using **historic weather and bloom data** powered by machine learning.  
 Track historic trends and forecast the next blooms! 🇯🇵
 
-✨ **Live updates:** A daily **cron job runs every midnight** to refresh weather data and forecast predictions automatically, so you’ll always see the most up-to-date bloom forecast!  
-**Note:** The update job takes about **30–40 minutes**, so new data appears early each morning.  
+✨ **Live updates:** A **cron job runs daily at midnight from December to June**, and **weekly (Sundays) at midnight from July to November**, to refresh weather data and forecast predictions automatically, so you’ll always see the most up-to-date bloom forecast!  
+**Note:** The update job takes about **20–30 minutes**, so new data appears early each morning.  
 _(The initial data from Google Drive is current as of **June 28, 2025**.)_
 
 [![React](https://img.shields.io/badge/Frontend-ReactJS-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
@@ -38,7 +38,7 @@ https://github.com/user-attachments/assets/b213bbd4-a43d-4d65-815c-f13a7f5374a4
    cd Bloomscape-Japan
 
 2. **Add the data:**  
-   - Download the `data.zip` file from [Google Drive](YOUR-GOOGLE-DRIVE-URL)  
+   - Download the `data.zip` file from [Google Drive](https://drive.google.com/file/d/1fr1wJ3CLZpbIjP4b3hHH9ymnir4ZaseR/view?usp=sharing)  
    - Extract it **inside** the `backend` directory, so it looks like:  
      ```
      backend/data/*

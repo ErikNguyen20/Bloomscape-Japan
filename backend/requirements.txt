@@ -1,0 +1,34 @@
+# FastAPI & related
+fastapi
+uvicorn
+fastapi-cache2
+redis
+
+# APScheduler for cron jobs
+apscheduler
+
+# Pandas & numerical
+pandas
+
+# Progress bar
+tqdm
+
+# Requests with caching & retry
+requests
+requests-cache
+retry-requests
+
+# OpenMeteo client
+openmeteo-requests
+
+# HTML parsing
+beautifulsoup4
+
+# LightGBM for ML
+lightgbm
+
+# scikit-learn for metrics & parameter sampling
+scikit-learn
+
+# Pydantic for data validation (FastAPI uses it too, but explicit)
+pydantic

@@ -1,0 +1,22 @@
+# Node modules (installed in container instead)
+node_modules/
+
+# Build output (built fresh)
+dist/
+dist-ssr/
+
+# Logs
+logs/
+*.log
+
+# Local env files (if you pass env vars instead)
+*.local
+
+# Git stuff
+.git
+.gitignore
+
+# IDEs & OS files
+.DS_Store
+.idea/
+.vscode/

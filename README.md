@@ -1,5 +1,5 @@
 # 🌸 **Bloomscape Japan** 🌸  
-_A Cherry Blossom Forecasting Web Application_
+_A Cherry Blossom AI Forecasting Web Application_
 
 ---
 
@@ -7,6 +7,10 @@ _A Cherry Blossom Forecasting Web Application_
 
 **Bloomscape Japan** is a 🌸 cherry blossom forecasting web app that predicts upcoming bloom dates **and displays historic cherry blossom bloom records** using **historic weather and bloom data** powered by machine learning.  
 Track historic trends and forecast the next blooms! 🇯🇵
+
+✨ **Live updates:** A daily **cron job runs every midnight** to refresh weather data and forecast predictions automatically, so you’ll always see the most up-to-date bloom forecast!  
+**Note:** The update job takes about **30–40 minutes**, so new data appears early each morning.  
+_(The initial data from Google Drive is current as of **June 28, 2025**.)_
 
 [![React](https://img.shields.io/badge/Frontend-ReactJS-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)

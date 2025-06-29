@@ -20,9 +20,9 @@ Track historic trends and forecast the next blooms! 🇯🇵
 
 ## 📽️ Preview
 
-> **Watch it in action:**  
-> [![Bloomscape Japan Preview](https://your-preview-image-url.com)](https://www.youtube.com/watch?v=513x2Wop94k&ab_channel=eriknguyen)  
-> *(Click the image to watch the video)*
+> **Watch it in action:**
+
+https://github.com/user-attachments/assets/b213bbd4-a43d-4d65-815c-f13a7f5374a4
 
 ---
 

@@ -12,6 +12,7 @@ from fastapi_cache.decorator import cache
 import redis.asyncio as redis
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+import asyncio
 
 from data_processing import date_update_cron_job
 from interfaces import HeatmapPoint, DataService, BloomHistory
@@ -49,10 +50,22 @@ async def startup():
     redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
     FastAPICache.init(RedisBackend(redis_client), prefix="api-cache")
 
-    # Only runs initialization if the data service has not been initialized yet
+    # Do initial data check/update if needed
     await first_time_data_service_init()
 
-    scheduler.add_job(daily_job, CronTrigger(hour=0, minute=0))
+    # Daily Dec-Jun
+    scheduler.add_job(
+        lambda: asyncio.create_task(safe_daily_job()),
+        CronTrigger(month="12,1,2,3,4,5,6", hour=0, minute=0),
+        name="Daily Dec-Jun"
+    )
+
+    # Weekly Jul-Nov
+    scheduler.add_job(
+        lambda: asyncio.create_task(safe_daily_job()),
+        CronTrigger(month="7,8,9,10,11", day_of_week="sun", hour=0, minute=0),
+        name="Weekly Jul-Nov"
+    )
     scheduler.start()
 
 
@@ -81,7 +94,17 @@ def get_history(
 
 async def first_time_data_service_init():
     if not dataService.is_first_time_initialized():
+        await safe_daily_job()
+
+
+async def safe_daily_job():
+    """
+    Runs the daily update with exception handling so it never crashes the app.
+    """
+    try:
         await daily_job()
+    except Exception as e:
+        print(f"[CRON ERROR] Daily job failed: {e}")
 
 
 async def daily_job():
@@ -90,19 +113,24 @@ async def daily_job():
     start = datetime.now()
     print("Start time:", start.strftime("%Y-%m-%d %H:%M:%S"))
 
-    print("Updating data...")
-    date_update_cron_job(DATA_DIR)
-
-    print("Training model...")
-    models = train_model(os.path.join(DATA_DIR, "processed_cities"))
-    print("Predicting from model...")
-    predictions = predict_model(os.path.join(DATA_DIR, "processed_cities"), models)
-
-    dataService.set_history(DATA_DIR)
-    dataService.set_predictions(DATA_DIR, predictions)
+    # Run blocking IO in executor to avoid blocking event loop
+    loop = asyncio.get_running_loop()
+    await loop.run_in_executor(None, date_update_cron_job, DATA_DIR)
+    await loop.run_in_executor(None, train_and_predict, DATA_DIR)
 
     duration = datetime.now() - start
-    print("Cron Job Done! Duration:", duration)
+    print(f"Cron Job Done! Duration: {duration}")
+
+
+def train_and_predict(data_dir: str):
+    print("Training model...")
+    models = train_model(os.path.join(data_dir, "processed_cities"))
+
+    print("Predicting from model...")
+    predictions = predict_model(os.path.join(data_dir, "processed_cities"), models)
+
+    dataService.set_history(data_dir)
+    dataService.set_predictions(data_dir, predictions)
 
 
 # Run app
